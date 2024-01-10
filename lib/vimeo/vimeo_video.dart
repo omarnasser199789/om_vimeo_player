@@ -64,6 +64,7 @@ class VimeoVideo {
               ),
             );
           }
+          return null;
         })).toList();
     return VimeoVideo(
       liveEvent: json['embed']['badges']['live']['streaming'],
@@ -205,18 +206,7 @@ class VimeoSource {
 }
 
 class _VimeoQualityFile {
-  static const String qualityLive = "live";
-  static const String hd = "hd";
-  static const String sd = "sd";
   static const String hls = "hls";
-  static const String quality4k = "4k";
-  static const String quality8k = "8k";
-  static const String quality1440p = "1440p";
-  static const String quality1080p = "1080p";
-  static const String quality720p = "720p";
-  static const String quality540p = "540p";
-  static const String quality360p = "360p";
-  static const String quality240p = "240p";
 
   final String quality;
   final VimeoSource file;
