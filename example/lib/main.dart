@@ -22,7 +22,7 @@ class _VimeoExampleState extends State<VimeoExample> {
       home: Scaffold(
         backgroundColor: Colors.grey,
         appBar: AppBar(toolbarHeight: 0),
-        body: const VideoWidget(videoId: '899877810', accessKey: 'd83d133237fd6aa8c78760307719c021',),
+        body: const VideoWidget(videoId: '899877810', accessKey: '',),
       ),
     );
   }
