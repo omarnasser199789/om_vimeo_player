@@ -13,7 +13,7 @@ class NoneAuthApiService {
       throw VimeoError(
           error: res.reasonPhrase,
           developerMessage:
-              "Please check your video id\nand accessibility is public",
+          "Please check your video id\nand accessibility is public",
           errorCode: res.statusCode);
     }
 

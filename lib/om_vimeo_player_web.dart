@@ -8,15 +8,15 @@ import 'dart:html' as html show window;
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-/// A web implementation of the RemediVimeoPlayer plugin.
-class RemediVimeoPlayerWeb {
+/// A web implementation of the OmVimeoPlayerWeb plugin.
+class OmVimeoPlayerWeb {
   static void registerWith(Registrar registrar) {
     final MethodChannel channel = MethodChannel('om_vimeo_player',
       const StandardMethodCodec(),
       registrar,
     );
 
-    final pluginInstance = RemediVimeoPlayerWeb();
+    final pluginInstance = OmVimeoPlayerWeb();
     channel.setMethodCallHandler(pluginInstance.handleMethodCall);
   }
 

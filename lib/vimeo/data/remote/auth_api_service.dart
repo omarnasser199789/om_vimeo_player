@@ -11,7 +11,7 @@ class AuthApiService {
       {required String videoId, required String accessKey}) async {
     Uri uri = Uri.parse("https://api.vimeo.com/videos/$videoId");
     var res =
-        await http.get(uri, headers: {"Authorization": "Bearer $accessKey"});
+    await http.get(uri, headers: {"Authorization": "Bearer $accessKey"});
 
     if (res.statusCode != 200) {
       throw VimeoError(

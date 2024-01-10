@@ -1,80 +1,33 @@
-import 'dart:developer' as dev;
 
-import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:om_vimeo_player/vimeo/vimeo_video.dart';
+import 'package:chewie/chewie.dart';
 
-/// Vimeo player.
+
 class VimeoPlayer extends StatefulWidget {
-  final VimeoVideo vimeoVideo;
-  final BetterPlayerController videoController;
-
-  const VimeoPlayer({Key? key, required this.vimeoVideo, required this.videoController})
-      : super(key: key);
+  final ChewieController videoController;
+  const VimeoPlayer({super.key, required this.videoController});
 
   @override
-  _VimeoPlayerState createState() => _VimeoPlayerState();
+  State<VimeoPlayer> createState() => _VimeoPlayerState();
 }
 
 class _VimeoPlayerState extends State<VimeoPlayer> {
   @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-  }
-
-  @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-    widget.videoController.dispose(forceDispose: true);
     super.dispose();
+    widget.videoController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Orientation orientation = MediaQuery.of(context).orientation;
-    dev.log("screen orientation = ${MediaQuery.of(context).orientation}",
-        name: "VimeoPlayer");
-    dev.log("screen width = ${MediaQuery.of(context).size.width}",
-        name: "VimeoPlayer");
-    dev.log("screen height = ${MediaQuery.of(context).size.height}",
-        name: "VimeoPlayer");
-    Widget child = AspectRatio(
-      aspectRatio: widget.vimeoVideo.ratio,
-      child: BetterPlayer(
-        controller: widget.videoController,
+    return AspectRatio(
+      aspectRatio:  widget.videoController.aspectRatio!,
+      child: Chewie(
+          controller: widget.videoController
       ),
     );
-
-    if (orientation == Orientation.portrait) {
-      SystemChrome.setEnabledSystemUIMode(
-        SystemUiMode.manual,
-        overlays: [
-          SystemUiOverlay.top,
-          SystemUiOverlay.bottom,
-        ],
-      );
-      return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: child,
-      );
-    } else {
-      SystemChrome.setEnabledSystemUIMode(
-        SystemUiMode.manual,
-        overlays: [],
-      );
-      return SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: child,
-      );
-    }
   }
 }
+
+

@@ -26,9 +26,9 @@ class VimeoVideo {
 
     if (json['embed']?['badges']['live']['streaming'] ?? false) {
       Uri uri =
-          Uri.parse("https://api.vimeo.com/me/videos/$videoId/m3u8_playback");
+      Uri.parse("https://api.vimeo.com/me/videos/$videoId/m3u8_playback");
       var response =
-          await http.get(uri, headers: {"Authorization": "Bearer $accessKey"});
+      await http.get(uri, headers: {"Authorization": "Bearer $accessKey"});
       var body = jsonDecode(response.body);
 
       return VimeoVideo(
@@ -50,21 +50,21 @@ class VimeoVideo {
     var jsonFiles = (json['files']) as List<dynamic>;
     List<_VimeoQualityFile?> files = List<_VimeoQualityFile?>.from(
         jsonFiles.map<_VimeoQualityFile?>((element) {
-      if (element['quality'] != null &&
-          element['quality'] != _VimeoQualityFile.hls) {
-        return _VimeoQualityFile(
-          quality: element['quality'],
-          file: VimeoSource(
-            height: element['height'],
-            width: element['width'],
-            fps: element['fps'] is double
-                ? element['fps']
-                : (element['fps'] as int).toDouble(),
-            url: Uri.tryParse(element['link'] as String)!,
-          ),
-        );
-      }
-    })).toList();
+          if (element['quality'] != null &&
+              element['quality'] != _VimeoQualityFile.hls) {
+            return _VimeoQualityFile(
+              quality: element['quality'],
+              file: VimeoSource(
+                height: element['height'],
+                width: element['width'],
+                fps: element['fps'] is double
+                    ? element['fps']
+                    : (element['fps'] as int).toDouble(),
+                url: Uri.tryParse(element['link'] as String)!,
+              ),
+            );
+          }
+        })).toList();
     return VimeoVideo(
       liveEvent: json['embed']['badges']['live']['streaming'],
       width: json['width'],
@@ -97,7 +97,7 @@ class VimeoVideo {
       ];
     } else {
       files = List<_VimeoQualityFile?>.from(json['request']['files']
-              ['progressive']
+      ['progressive']
           .map<_VimeoQualityFile?>((element) {
         return _VimeoQualityFile(
           quality: element['quality'],
@@ -200,8 +200,8 @@ class VimeoSource {
   int? get size => (height == null || width == null)
       ? null
       : height! > width!
-          ? height
-          : width;
+      ? height
+      : width;
 }
 
 class _VimeoQualityFile {
