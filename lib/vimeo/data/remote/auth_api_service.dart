@@ -23,12 +23,10 @@ class AuthApiService {
     return jsonDecode(res.body);
   }
 
-  Future<dynamic> loadByEventId(
-      {required String eventId, required String accessKey}) async {
-    Uri uri1 = Uri.parse("https://api.vimeo.com/me/live_events/$eventId");
+  Future<dynamic> loadByEventId({ required String accessKey}) async {
+    Uri uri1 = Uri.parse("https://api.vimeo.com/me/live_events");
 
-    Uri uri2 = Uri.parse(
-        "https://api.vimeo.com/me/live_events/$eventId/m3u8_playback");
+    Uri uri2 = Uri.parse("https://api.vimeo.com/me/live_events/m3u8_playback");
     var res = await Future.wait([
       http.get(uri1, headers: {"Authorization": "Bearer $accessKey"}),
       http.get(uri2, headers: {"Authorization": "Bearer $accessKey"})

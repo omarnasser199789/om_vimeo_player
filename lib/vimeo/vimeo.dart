@@ -5,27 +5,19 @@ import 'package:om_vimeo_player/vimeo/vimeo_video.dart';
 /// Vimeo Class provides functions to get vimeo data.
 class Vimeo {
   final String? videoId;
-  final String? eventId;
   final String? accessKey;
 
   Vimeo({
     this.videoId,
-    this.eventId,
     this.accessKey,
-  })  : assert(videoId != null || eventId != null),
-        assert(eventId != null && accessKey != null);
+  })  : assert(videoId != null && accessKey != null);
 
   factory Vimeo.fromUrl(Uri url, {String? accessKey}) {
     String? vId;
-    String? eId;
-    if (url.pathSegments.contains('event')) {
-      eId = url.pathSegments.last;
-    } else {
-      vId = url.pathSegments.last;
-    }
+    vId = url.pathSegments.last;
+
     return Vimeo(
       videoId: vId,
-      eventId: eId,
       accessKey: accessKey,
     );
   }
@@ -38,7 +30,6 @@ extension ExtensionVimeo on Vimeo {
       if (accessKey?.isEmpty ?? true) {
         return _videoWithoutAuth;
       }
-
       return _videoWithAuth;
     }
 
@@ -72,8 +63,7 @@ extension ExtensionVimeo on Vimeo {
 
   Future<dynamic> get _liveStreaming async {
     try {
-      var res = await AuthApiService()
-          .loadByEventId(eventId: eventId!, accessKey: accessKey!);
+      var res = await AuthApiService().loadByEventId(accessKey: accessKey!);
       return VimeoVideo.fromJsonLiveEvent(res);
     } catch (e) {
       return e;
