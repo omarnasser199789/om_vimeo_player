@@ -18,7 +18,7 @@ class _VimeoExampleState extends State<VimeoExample> {
     var res = await Vimeo(
       videoId: '899877810',
       eventId: '',
-      accessKey: "d83d133237fd6aa8c78760307719c021",
+      accessKey: "",
     ).load;
 
     if (res is VimeoError) {
