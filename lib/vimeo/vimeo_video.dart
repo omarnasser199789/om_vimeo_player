@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:om_vimeo_player/vimeo/vimeo_error.dart';
+import 'package:om_vimeo_player/vimeo/video_error.dart';
 
 class VimeoVideo {
   final bool liveEvent;
@@ -21,7 +21,7 @@ class VimeoVideo {
     required Map<String, dynamic> json,
   }) async {
     if (json.keys.contains("error")) {
-      throw VimeoError.fromJsonAuth(json);
+      throw VideoError.fromJsonAuth(json);
     }
 
     if (json['embed']?['badges']['live']['streaming'] ?? false) {
@@ -74,68 +74,6 @@ class VimeoVideo {
     );
   }
 
-  static Future<VimeoVideo> fromJsonVideoWithoutAuth(
-      Map<String, dynamic> json) async {
-    if (json.keys.contains("message")) {
-      throw VimeoError.fromJsonNoneAuth(json);
-    }
-    late var files;
-    bool isLive = json['video']['live_event'] != null;
-    if (isLive) {
-      var hls = json['request']['files']['hls'];
-      var response = jsonDecode(
-          (await http.get(Uri.parse(hls['cdns']['fastly_live']['json_url'])))
-              .body);
-      Uri url = Uri.parse(response['url'] as String);
-      files = [
-        _VimeoQualityFile(
-            quality: 'hls',
-            file: VimeoSource(
-                height: json['video']['height'],
-                width: json['video']['width'],
-                fps: json['video']['fps'],
-                url: url))
-      ];
-    } else {
-      files = List<_VimeoQualityFile?>.from(json['request']['files']
-      ['progressive']
-          .map<_VimeoQualityFile?>((element) {
-        return _VimeoQualityFile(
-          quality: element['quality'],
-          file: VimeoSource(
-            width: element['width'],
-            height: element['height'],
-            fps: element['fps'] is double
-                ? element['fps']
-                : (element['fps'] as int).toDouble(),
-            url: Uri.parse(element['url']),
-          ),
-        );
-      })).toList();
-    }
-    return VimeoVideo(
-        liveEvent: isLive,
-        width: json['video']['width'],
-        height: json['video']['height'],
-        sources: files);
-  }
-
-  factory VimeoVideo.fromJsonLiveEvent(json) {
-    var ret = VimeoVideo(
-        liveEvent: true,
-        height: json[0]['streamable_clip']['height'],
-        width: json[0]['streamable_clip']['width'],
-        sources: [
-          _VimeoQualityFile(
-              quality: _VimeoQualityFile.hls,
-              file: VimeoSource(
-                height: json[0]['streamable_clip']['height'],
-                width: json[0]['streamable_clip']['width'],
-                url: Uri.parse(json[1]['m3u8_playback_url']),
-              ))
-        ]);
-    return ret;
-  }
 }
 
 extension ExtensionVimeoVideo on VimeoVideo {

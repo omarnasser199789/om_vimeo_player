@@ -1,11 +1,11 @@
 /// Error on getting vimeo meta data from vimeo server.
-class VimeoError extends Error {
+class VideoError extends Error {
   final String? error;
   final String? link;
   final String? developerMessage;
   final int? errorCode;
 
-  VimeoError({this.error, this.link, this.developerMessage, this.errorCode});
+  VideoError({this.error, this.link, this.developerMessage, this.errorCode});
 
   String toString() {
     if (error != null) {
@@ -14,8 +14,8 @@ class VimeoError extends Error {
     return "getting vimeo information failed";
   }
 
-  factory VimeoError.fromJsonAuth(Map<String, dynamic> json) {
-    return VimeoError(
+  factory VideoError.fromJsonAuth(Map<String, dynamic> json) {
+    return VideoError(
       error: json['error'],
       link: json['link'],
       developerMessage: json['developer_message'],
@@ -23,8 +23,8 @@ class VimeoError extends Error {
     );
   }
 
-  factory VimeoError.fromJsonNoneAuth(Map<String, dynamic> json) {
-    return VimeoError(
+  factory VideoError.fromJsonNoneAuth(Map<String, dynamic> json) {
+    return VideoError(
       error: json['message'],
       link: null,
       developerMessage: json['title'],
