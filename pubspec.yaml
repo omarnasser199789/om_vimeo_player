@@ -16,8 +16,8 @@ dependencies:
     sdk: flutter
 
   # video player
-  video_player: ^2.8.2
-  chewie: ^1.7.4
+  video_player: ^2.9.2
+  chewie: ^1.8.5
 
   # http
   http:
