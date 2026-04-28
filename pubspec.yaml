@@ -17,6 +17,7 @@ dependencies:
 
   # video player
   video_player: ^2.9.2
+  video_player_media_kit: ^1.0.5
   chewie: ^1.8.5
 
   # http
